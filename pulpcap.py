@@ -11,25 +11,32 @@ To Do:
     -If statements for breaking RTP/SIP search if not valid formats were used
     -Some fun responses for different things
     -Add setting up path to your own webdriver
+    -KIBP for SIP configuration based on user input
 """
 
 import time
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.common.keys import Keys
+from progress.spinner import Spinner
 
 # variables
+KIBPList = ["CH1", "DC2"]
 name = input("Enter Name:")
 UID = input("Enter Telnyx UUID:").strip()
+print("List of SIP Tankers" + str(KIBPList) + ":")
+KIBP = input("Enter SIP KIBP Location from list above! (If left blank, defaults to CH1):")
+KIBP = KIBP.lower()
 print('Pulling PCAP with UID of ' + UID)
+
+options = Options()
+#options.add_argument("--headless")
+driver = webdriver.Firefox(options=options)
 
 #functions
 def PCAP_RTP():
     # Firefox Driver + PCAP Site + Make sure we get to it
-    # headless operation
-    options = Options()
-    options.add_argument("--headless")
-    driver = webdriver.Firefox(options=options)
+
     driver.get('http://10.255.0.21:1968/')
     assert "PCAP" in driver.title
 
@@ -46,7 +53,7 @@ def PCAP_RTP():
     elem = driver.find_element_by_xpath("//*[@id='fillButton']")
     elem.click()
 
-    time.sleep(1.8)
+    time.sleep(2)
 
     # Name
     elem = driver.find_element_by_xpath("//*[@id='inputUsername']")
@@ -57,20 +64,19 @@ def PCAP_RTP():
     elem = driver.find_element_by_xpath("/html/body/div/main/div[2]/form/button")
     elem.click()
 
-    time.sleep(1.8)
+    time.sleep(2)
 
     #Grab the output message
     messageRTP = driver.find_element_by_xpath("/html/body/div/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[2]/span/span")
-    print("RTP " + messageRTP.text)
+    firstTenMessageRTP = messageRTP.text[1:14]
 
-    driver.close()
+    if firstTenMessageRTP == "start_time or":
+        print("Hmmm...either wrong filter or doesn't exist! Double check ID")
+    else:
+        print("RTP " + messageRTP.text)
 
 def PCAP_SIP():
     # Firefox Driver + PCAP Site + Make sure we get to it
-    # headless operation
-    options = Options()
-    options.add_argument("--headless")
-    driver = webdriver.Firefox(options=options)
     driver.get('http://10.255.0.21:1968/')
     assert "PCAP" in driver.title
 
@@ -91,10 +97,15 @@ def PCAP_SIP():
     elem = driver.find_element_by_xpath("//*[@id='fillButton']")
     elem.click()
 
-    time.sleep(1.8)
+    time.sleep(2)
 
     # Host to CH1
-    elem = driver.find_element_by_xpath("/html/body/div/main/div[2]/form/div[2]/select/option[4]").click()
+    if KIBP == "ch1":
+        elem = driver.find_element_by_xpath("/html/body/div/main/div[2]/form/div[2]/select/option[4]").click()
+    elif KIBP == "dc2":
+        elem = driver.find_element_by_xpath("/html/body/div/main/div[2]/form/div[2]/select/option[22]").click()
+    else:
+        elem = driver.find_element_by_xpath("/html/body/div/main/div[2]/form/div[2]/select/option[4]").click()
 
     # Source
     elem = driver.find_element_by_xpath("/html/body/div/main/div[2]/form/div[3]/select/option[2]").click()
@@ -108,16 +119,21 @@ def PCAP_SIP():
     elem = driver.find_element_by_xpath("/html/body/div/main/div[2]/form/button")
     elem.click()
 
-    time.sleep(1.8)
+    time.sleep(2)
 
     #Grab the output message
     messageSIP = driver.find_element_by_xpath("/html/body/div/div/div/div[1]/div/div/div[2]/table/tbody/tr[1]/td[2]/span/span")
-    print("SIP " + messageSIP.text)
+    firstTenMessageSIP = messageSIP.text[1:14]
 
-    driver.close()
+    if firstTenMessageSIP == "start_time or":
+        print("Hmmm...either wrong filter or doesn't exist! Double check ID")
+    else:
+        print("SIP " + messageSIP.text)
 
-PCAP_RTP()
 PCAP_SIP()
+#PCAP_RTP()
+
+driver.close()
 
 print("Congrats! You are lazy.")
 # elem.send_keys(Keys.RETURN)
