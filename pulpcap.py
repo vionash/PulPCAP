@@ -15,6 +15,7 @@ To Do:
 """
 
 import time
+import os
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
@@ -22,15 +23,20 @@ from progress.spinner import Spinner
 
 # variables
 KIBPList = ["CH1", "DC2"]
+
 name = input("Enter Name:")
 UID = input("Enter Telnyx UUID:").strip()
 print("List of SIP Tankers" + str(KIBPList) + ":")
+
+#Enviro Variable from bash script
+KIBPLoc = (os.environ['KIBPLoc'])
+print("Reference: Current KIBP Tanker is: " + KIBPLoc)
+
 KIBP = input("Enter SIP KIBP Location from list above! (If left blank, defaults to CH1):")
 KIBP = KIBP.lower()
-print('Pulling PCAP with UID of ' + UID)
 
 options = Options()
-#options.add_argument("--headless")
+options.add_argument("--headless")
 driver = webdriver.Firefox(options=options)
 
 #functions
@@ -131,7 +137,7 @@ def PCAP_SIP():
         print("SIP " + messageSIP.text)
 
 PCAP_SIP()
-#PCAP_RTP()
+PCAP_RTP()
 
 driver.close()
 
