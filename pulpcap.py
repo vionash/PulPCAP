@@ -1,3 +1,18 @@
+#PulPCAP
+#Vladi
+
+#Version 0.1
+
+"""
+To Do:
+    -Find method to add new tab: <driver.execute_script("window.open('<URL>','_blank')")>
+    -Find a way to actually focus on the tab for commands
+    -Instead of sleeps, implement check for state change to make it work more consistently
+    -If statements for breaking RTP/SIP search if not valid formats were used
+    -Some fun responses for different things
+    -Add setting up path to your own webdriver
+"""
+
 import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -9,7 +24,6 @@ UID = input("Enter Telnyx UUID:").strip()
 print('Pulling PCAP with UID of ' + UID)
 
 #functions
-
 def PCAP_RTP():
     # Firefox Driver + PCAP Site + Make sure we get to it
     # headless operation
