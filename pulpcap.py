@@ -1,7 +1,7 @@
 #PulPCAP
 #Vladi
 
-#Version 0.1
+#Version 0.2
 
 """
 To Do:
@@ -25,7 +25,8 @@ from progress.spinner import Spinner
 KIBPList = ["CH1", "DC2"]
 
 name = input("Enter Name:")
-UID = input("Enter Telnyx UUID:").strip()
+UID = [str(x).strip() for x in input("Enter Telnyx UUID:").split()]
+#UID = input("Enter Telnyx UUID:").strip()
 print("List of SIP Tankers" + str(KIBPList) + ":")
 
 #Enviro Variable from bash script
@@ -40,7 +41,7 @@ options.add_argument("--headless")
 driver = webdriver.Firefox(options=options)
 
 #functions
-def PCAP_RTP():
+def PCAP_RTP(UID):
     # Firefox Driver + PCAP Site + Make sure we get to it
 
     driver.get('http://10.255.0.21:1968/')
@@ -77,11 +78,11 @@ def PCAP_RTP():
     firstTenMessageRTP = messageRTP.text[1:14]
 
     if firstTenMessageRTP == "start_time or":
-        print("Hmmm...either wrong filter or doesn't exist! Double check ID")
+        print("Hmmm...For the RTP portion, either wrong filter or doesn't exist! Double check ID")
     else:
-        print("RTP " + messageRTP.text)
+        print("RTP " + UID + " " + messageRTP.text)
 
-def PCAP_SIP():
+def PCAP_SIP(UID):
     # Firefox Driver + PCAP Site + Make sure we get to it
     driver.get('http://10.255.0.21:1968/')
     assert "PCAP" in driver.title
@@ -132,12 +133,13 @@ def PCAP_SIP():
     firstTenMessageSIP = messageSIP.text[1:14]
 
     if firstTenMessageSIP == "start_time or":
-        print("Hmmm...either wrong filter or doesn't exist! Double check ID")
+        print("Hmmm...For the SIP portion either wrong filter or doesn't exist! Double check ID")
     else:
-        print("SIP " + messageSIP.text)
+        print("SIP " + UID + " " + messageSIP.text)
 
-PCAP_SIP()
-PCAP_RTP()
+for X in UID:
+    PCAP_SIP(X.strip())
+    PCAP_RTP(X.strip())
 
 driver.close()
 
