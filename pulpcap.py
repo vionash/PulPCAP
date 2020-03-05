@@ -1,18 +1,7 @@
 # PulPCAP
 # Vladi
 
-# Version 0.2
-
-"""
-To Do:
-    -Find method to add new tab: <driver.execute_script("window.open('<URL>','_blank')")>
-    -Find a way to actually focus on the tab for commands
-    -Instead of sleeps, implement check for state change to make it work more consistently
-    -If statements for breaking RTP/SIP search if not valid formats were used
-    -Some fun responses for different things
-    -Add setting up path to your own webdriver
-    -KIBP for SIP configuration based on user input
-"""
+# Version 0.8
 
 import time
 import os
@@ -32,7 +21,7 @@ KIBPList = [x.lower() for x in KIBPListShow]
 name = input("Enter Name:")
 
 UID = [str(x).strip() for x in input(
-            "Enter Telnyx UUID (Note: If you'd like to do more than 1, simply separate them with a space!):").split()]
+            "Enter Telnyx Call Leg ID (Note: If you'd like to do more than 1, simply separate them with a space!):").split()]
 
 # Enviro Variable from bash script ^^^ import OS
 try:
@@ -63,10 +52,16 @@ if KIBP == "":
 else:
     print("Using " + KIBP + " location!")
 
-#Start webdriver! Using GeckoDriver(Firefox)
+#Start webdriver! Using GeckoDriver(Firefox), run headleslly
 options = Options()
 options.add_argument("--headless")
 driver = webdriver.Firefox(options=options)
+
+"""
+# If you want to specify driver location, simply append the above driver with (executable_path=r'<Your.path.here.exe')
+# Example:
+# driver = webdriver.Firefox(options=options, executable_path=r'C:\WebDriver\bin\geckodriver.exe')
+"""
 
 # functions
 def PCAP_RTP(UID):
@@ -188,5 +183,5 @@ for X in UID:
 
 driver.close()
 
-print("Congrats! You are lazy.")
+print("Congrats! You are lazy. Or attempted to be.")
 # elem.send_keys(Keys.RETURN)
