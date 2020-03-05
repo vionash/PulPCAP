@@ -10,10 +10,10 @@ Version 0.8
 - OS
 - Selenium
     
-  Selenium is a webdriver, which basically acts like a browser that you can automate to do stuff.
+Selenium is a webdriver, which basically acts like a browser that you can automate to do stuff.
   Can be installed using <pip install selenium>
   
-  This code here is based on using geckodriver (firefox). You can download the latest release here: https://github.com/mozilla/geckodriver/releases    
+This code here is based on using geckodriver (firefox). You can download the latest release here: https://github.com/mozilla/geckodriver/releases    
 Add this file to your PATH (so you can call the driver from anywhere) or just edit the python code to where you have it listed. Inside the code there will be a comment on where you can change this.
 
 **NOTE:** You can use chrome for this as well, just have to configure it yourself but should be practically the same.
