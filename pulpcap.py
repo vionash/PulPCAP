@@ -18,18 +18,23 @@ import time
 import os
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
+import threading
+from progress.spinner import PixelSpinner
 from selenium.webdriver.common.keys import Keys
 from progress.spinner import Spinner
 
-#List to show
+# List to show
 KIBPListShow = ["CH1", "DC2"]
 
-#List to reference in code
-KIBPList = ["ch1", "dc2"]
-name = input("Enter Name:")
-UID = [str(x).strip() for x in input("Enter Telnyx UUID:").split()]
+# List to reference in code
+KIBPList = [x.lower() for x in KIBPListShow]
 
-#Enviro Variable from bash script ^^^ import OS
+name = input("Enter Name:")
+
+UID = [str(x).strip() for x in input(
+            "Enter Telnyx UUID (Note: If you'd like to do more than 1, simply separate them with a space!):").split()]
+
+# Enviro Variable from bash script ^^^ import OS
 try:
     KIBPLoc = (os.environ['KIBPLoc'])
     print("Reference: Current KIBP Tanker is: " + KIBPLoc)
@@ -52,9 +57,13 @@ while True:
         print("Not a valid input! Choose from above or leave blank!")
         continue
 
-#KIBP = input("Enter SIP KIBP Location from list above! (If left blank, defaults to CH1):")
-#KIBP = KIBP.lower()
+KIBP = KIBP.upper()
+if KIBP == "":
+    print("Using CH1 location!")
+else:
+    print("Using " + KIBP + " location!")
 
+#Start webdriver! Using GeckoDriver(Firefox)
 options = Options()
 options.add_argument("--headless")
 driver = webdriver.Firefox(options=options)
@@ -62,7 +71,6 @@ driver = webdriver.Firefox(options=options)
 # functions
 def PCAP_RTP(UID):
     # Firefox Driver + PCAP Site + Make sure we get to it
-
     driver.get('http://10.255.0.21:1968/')
     assert "PCAP" in driver.title
 
@@ -88,7 +96,7 @@ def PCAP_RTP(UID):
     elem = driver.find_element_by_xpath(
         "//*[@id='inputUsername']")
     elem.clear()
-    elem.send_keys(name.strip() + "RTP")
+    elem.send_keys(name.strip() + "RTP_" + UID.strip())
 
     # Submit
     elem = driver.find_element_by_xpath(
@@ -154,7 +162,7 @@ def PCAP_SIP(UID):
     elem = driver.find_element_by_xpath(
         "//*[@id='inputUsername']")
     elem.clear()
-    elem.send_keys(name.strip() + "SIP")
+    elem.send_keys(name.strip() + "SIP_" + UID.strip())
 
     # Submit
     elem = driver.find_element_by_xpath(
