@@ -13,7 +13,9 @@ Headlessly pull PCAPs from extractor!
 - Selenium
     
 Selenium is a webdriver, which basically acts like a browser that you can automate to do stuff.
-  Can be installed using <pip install selenium>
+  Can be installed using 
+  
+  `pip install selenium`
   
 This code here is based on using geckodriver (firefox). You can download the latest release here: 
 
