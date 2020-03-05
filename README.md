@@ -1,8 +1,10 @@
 # PulPCAP
 
+Version 0.81
+
 by Vlad
+
 Headlessly pull PCAPs from extractor!
-Version 0.8 
 
 ### Setup:
   You will need these dependencies to run this properly:
