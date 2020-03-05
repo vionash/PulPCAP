@@ -15,7 +15,7 @@ Selenium is a webdriver, which basically acts like a browser that you can automa
   
 This code here is based on using geckodriver (firefox). You can download the latest release here: 
 
-[https://github.com/mozilla/geckodriver/releases]    
+[Firefox WebDriver](https://github.com/mozilla/geckodriver/releases)    
 
 Add this file to your PATH (so you can call the driver from anywhere) or just edit the python code to where you have it listed. Inside the code there will be a comment on where you can change this.
 
