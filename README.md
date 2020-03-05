@@ -28,6 +28,6 @@ Add this file to your PATH (so you can call the driver from anywhere) or just ed
   You will have the following inputs:
 - "Enter Name": This references how you can discern which PCAP is yours in the PCAPExtractor channel. It also adds the TUID at the end.
 - "Enter Telnyx Call Leg ID": TUID Input. This is the Call-Leg ID that you can find in CDR Search/Call Session. You can add more than 1 even! Just simply add a space.
-- "Enter SIP KIBP Location..": Chose between CH1 and DC2! CH1 references ch1.001 tanker and DC2 references dc.020 tanker.
+- "Enter SIP KIBP Location..": Choose between CH1 and DC2! CH1 references ch1.001 tanker and DC2 references dc.020 tanker.
     
  That's it! You should then see the requested PCAPs in the slack channel, processing. 
