@@ -58,9 +58,11 @@ options.add_argument("--headless")
 driver = webdriver.Firefox(options=options)
 
 """
+#########IF YOU"RE LOOKING FOR PATH TO WEBDRIVER, IT IS HERE!!!###########
 # If you want to specify driver location, simply append the above driver with (executable_path=r'<Your.path.here.exe')
 # Example:
 # driver = webdriver.Firefox(options=options, executable_path=r'C:\WebDriver\bin\geckodriver.exe')
+##########################################################################
 """
 
 # functions
