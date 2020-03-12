@@ -1,6 +1,6 @@
 # PulPCAP
 
-Version 0.81
+Version 0.95
 
 by Vlad
 
@@ -15,7 +15,7 @@ Headlessly pull PCAPs from extractor!
 Selenium is a webdriver, which basically acts like a browser that you can automate to do stuff.
   Can be installed using 
   
-  `pip install selenium`
+  `pip install selenium --user`
   
 This code here is based on using geckodriver (firefox). You can download the latest release here: 
 
